@@ -1,5 +1,5 @@
 import subprocess
-from brackets import check_with_oddness
+from check_brackets import check_with_oddness
 
 
 def test_empty():
