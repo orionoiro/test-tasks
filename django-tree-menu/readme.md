@@ -1,6 +1,6 @@
 You need to create a django application which implements a tree menu.
 
-It is necessary to follow certain conditions:
+It is necessary to follow a certain conditions:
 
 1. The menu is implemented via template tag.
 2. Everything that is above the selected item is expanded. First nesting level under the selected item is also expanded.
