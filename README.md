@@ -1,2 +1,2 @@
-1. check-brackets
-2. django tree_menu
+1. check brackets
+2. django tree menu
