@@ -16,7 +16,7 @@ class Menu(models.Model):
         for x in count(1):
             if not Menu.objects.filter(slug=self.slug).exclude(pk=self.pk).exists():
                 break
-            self.slug = "%s-%d" % (self.slug[:max_slug_length - len(str(x)) - 1], x)
+            self.slug = f'{self.slug[:max_slug_length - len(str(x)) - 1]}-{x}'
         super(Menu, self).save(*args, **kwargs)
 
 
@@ -36,5 +36,5 @@ class Category(models.Model):
         for x in count(1):
             if not Category.objects.filter(slug=self.slug).exclude(pk=self.pk).exists():
                 break
-            self.slug = "%s-%d" % (self.slug[:max_slug_length - len(str(x)) - 1], x)
+            self.slug = f'{self.slug[:max_slug_length - len(str(x)) - 1]}-{x}'
         super(Category, self).save(*args, **kwargs)
