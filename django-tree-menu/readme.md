@@ -1,4 +1,4 @@
-You need to create a django application which implements a tree menu.
+I had to create a django application which implements a tree menu.
 
 It is necessary to follow a certain conditions:
 
