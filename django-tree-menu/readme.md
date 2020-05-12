@@ -2,7 +2,7 @@ The following text below is a quote of the task given to me:
 
 >You need to create a django application which implements a tree menu.
 
-It is necessary to follow a certain conditions:
+>It is necessary to follow a certain conditions:
 
 >1. The menu is implemented via template tag.
 >2. Everything that is above the selected item is expanded. First nesting level under the selected item is also expanded.
@@ -16,6 +16,6 @@ It is necessary to follow a certain conditions:
 
 >`{% draw_menu 'main_menu' %}`
 
-(where "main_menu" is the name of a menu)
+>(where "main_menu" is the name of a menu)
 
-You should use only Django and Python's standard library for this task, with no additional 3rd-party libraries.
+>You should use only Django and Python's standard library for this task, with no additional 3rd-party libraries.
