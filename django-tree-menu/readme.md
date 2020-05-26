@@ -1,4 +1,4 @@
-The following text below is a quote of the task given to me.
+The following text below is a quote of the task which was given to me.
 
 >You need to create a django application which implements a tree menu.
 >
