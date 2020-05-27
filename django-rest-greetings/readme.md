@@ -1,6 +1,6 @@
-####Heroku live version: https://greetings-heroku.herokuapp.com/records
+### Heroku live version: https://greetings-heroku.herokuapp.com/records
 
-#### load the data with fixtures
+##### you can load the data with fixtures
 
 url patterns:
 >
