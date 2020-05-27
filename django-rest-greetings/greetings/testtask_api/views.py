@@ -28,6 +28,4 @@ class RecordsView(mixins.ListModelMixin,
         if request.data['date']:
             date = request.data['date']
             self.queryset = Record.objects.filter(date=datetime.date.fromisoformat(date))
-        else:
-            self.queryset = Record.objects.all()
         return self.list(request, *args, **kwargs)
