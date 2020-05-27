@@ -8,7 +8,7 @@ url patterns:
 >
 >/records.xlsx
 >
-enabling filtering by date
+enabling filtering by date as YYYY-MM-DD
 >
 >/records.json?date=<ISO FORMAT>
 >
