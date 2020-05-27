@@ -1,8 +1,8 @@
+import datetime
 from rest_framework import mixins, generics
+from drf_renderer_xlsx.mixins import XLSXFileMixin
 from .models import Record
 from .serializers import RecordSerializer
-import datetime
-from drf_renderer_xlsx.mixins import XLSXFileMixin
 
 
 class RecordsView(mixins.ListModelMixin,
@@ -11,6 +11,7 @@ class RecordsView(mixins.ListModelMixin,
                   generics.GenericAPIView):
     queryset = Record.objects.all()
     serializer_class = RecordSerializer
+    filename = 'greetings.xlsx'
 
     def get_queryset(self):
         date = self.request.query_params.get('date', None)
