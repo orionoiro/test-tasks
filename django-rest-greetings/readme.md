@@ -1,5 +1,5 @@
 ### Heroku live version: https://greetings-heroku.herokuapp.com/records
-#### admin : d8josbiv96574a
+#### admin : verystrongpassword
 
 ##### you can load the data with fixtures
 
