@@ -9,11 +9,12 @@ app = Celery('tasks', backend='redis://localhost', broker='redis://localhost')
 
 
 @app.task
-def resize(width: int, height: int, b64: str):
+def resize(width: int, height: int, b64_string: str):
     try:
-        data = b64decode(b64)
-        bytes_io = BytesIO(data)
         uid = str(uuid4())
+
+        data = b64decode(b64_string.encode('ascii'))
+        bytes_io = BytesIO(data)
         im = Image.open(bytes_io)
         img_type = im.format
         im = im.resize((width, height))
@@ -21,6 +22,7 @@ def resize(width: int, height: int, b64: str):
         return uid
     except ValueError:
         print('Error')
+
 
 if __name__ == '__main__':
     data = open('/home/dude/Downloads/images/90935.jpg', 'rb')

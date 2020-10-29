@@ -17,8 +17,8 @@ async def set_task(width: int, height: int, file: UploadFile = File(...)) -> dic
         raise ValueError('width value should be between 1 and 9999')
 
     data_bytes = file.file._file.read()  # bytes data of an image
-    b64 = str(b64encode(data_bytes))
-    task = resize.delay(width, height, b64)
+    b64_string = b64encode(data_bytes).decode('ascii')
+    task = resize.delay(width, height, b64_string)
     return task
 
 
