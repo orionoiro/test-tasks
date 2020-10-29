@@ -18,8 +18,8 @@ async def set_task(width: int, height: int, file: UploadFile = File(...)) -> dic
 
     data_bytes = file.file._file.read()  # bytes data of an image
     b64_string = b64encode(data_bytes).decode('ascii')
-    task = resize.delay(width, height, b64_string)
-    return task
+    result = resize.delay(width, height, b64_string)
+    return {'id':result.get()}
 
 
 @app.get('/status/{job_id}')

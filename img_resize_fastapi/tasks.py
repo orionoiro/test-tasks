@@ -1,6 +1,5 @@
 from base64 import b64encode, b64decode
 from io import BytesIO
-from uuid import uuid4
 
 from PIL import Image
 from celery import Celery
@@ -9,19 +8,17 @@ app = Celery('tasks', backend='redis://localhost', broker='redis://localhost')
 
 
 @app.task
-def resize(width: int, height: int, b64_string: str):
-    try:
-        uid = str(uuid4())
+async def resize(width: int, height: int, b64_string: str):
+    # make use of celery based uuids
+    uid = app.Task.id
 
-        data = b64decode(b64_string.encode('ascii'))
-        bytes_io = BytesIO(data)
-        im = Image.open(bytes_io)
-        img_type = im.format
-        im = im.resize((width, height))
-        im.save(uid, format=img_type)
-        return uid
-    except ValueError:
-        print('Error')
+    data = b64decode(b64_string.encode('ascii'))
+    bytes_io = BytesIO(data)
+    im = Image.open(bytes_io)
+    img_type = im.format
+    im = im.resize((width, height))
+    im.save(uid, format=img_type)
+    return {'id': uid}
 
 
 if __name__ == '__main__':
