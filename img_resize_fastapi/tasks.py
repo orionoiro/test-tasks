@@ -8,9 +8,8 @@ app = Celery('tasks', backend='redis://localhost', broker='redis://localhost')
 
 
 @app.task
-async def resize(width: int, height: int, b64_string: str):
-    # make use of celery based uuids
-    uid = app.Task.id
+def resize(width: int, height: int, b64_string: str):
+    uid = resize.request.id
 
     data = b64decode(b64_string.encode('ascii'))
     bytes_io = BytesIO(data)
