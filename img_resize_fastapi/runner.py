@@ -12,11 +12,6 @@ from transactions import to_store, to_retrieve
 app = FastAPI()
 
 
-def run():
-    LOGGING_CONFIG["formatters"]["default"]["fmt"] = "%(asctime)s %(levelprefix)s %(message)s"
-    LOGGING_CONFIG["formatters"]["access"]["fmt"] = '%(asctime)s %(levelprefix)s %(client_addr)s - "%(request_line)s" %(status_code)s'
-    uvicorn.run(app)
-
 @app.post('/resize/')
 def set_task(width: int, height: int, file: UploadFile = File(...)) -> bool:
     if file.content_type not in ('image/jpeg', 'image/png'):
@@ -46,9 +41,17 @@ def get_status(job_id: str):
             return response
         else:
             payload = {'status': task.status}
-            return JSONResponse(status_code = status.HTTP_204_NO_CONTENT, content=payload)
+            return JSONResponse(status_code=status.HTTP_204_NO_CONTENT, content=payload)
     else:
         raise HTTPException(status_code=404, detail='Incorrect task id')
+
+
+def run():
+    LOGGING_CONFIG["formatters"]["default"]["fmt"] = "%(asctime)s %(levelprefix)s %(message)s"
+    LOGGING_CONFIG["formatters"]["access"][
+        "fmt"] = '%(asctime)s %(levelprefix)s %(client_addr)s - "%(request_line)s" %(status_code)s'
+    uvicorn.run(app)
+
 
 if __name__ == '__main__':
     run()
