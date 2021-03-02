@@ -1,13 +1,13 @@
 from io import BytesIO, TextIOWrapper
-import random
 import pytest
 from PIL import Image, ImageDraw
 from fastapi import HTTPException
 from fastapi.datastructures import UploadFile
-
+import magic
 from runner import set_task, get_status
 from tasks import resize
 from transactions import to_store, to_retrieve
+
 
 def gen_image(x, y, extension):
     im = Image.new('RGB', (x, y))
@@ -17,16 +17,23 @@ def gen_image(x, y, extension):
     im.show()
     b = BytesIO()
     im.save(b, format=extension)
-    fp = TextIOWrapper(b)
-    return fp
+    b.seek(0)
+    upload_file = UploadFile(b)
+    upload_file.content_type = magic.from_buffer(b.getvalue(), mime=True)
+    upload_file.file._file = b
 
-@pytest.fixture #(scope="module", params=[(300, 300, 'jpg'), (500,500, 'bmp')])
+    return upload_file
+
+
+@pytest.fixture  # (scope="module", params=[(300, 300, 'jpg'), (500,500, 'bmp')])
 def test_image():
-    return gen_image(300, 300, 'bmp')
+    return gen_image(300, 300, 'png')
+
 
 def test_img_type(test_image):
     with pytest.raises(HTTPException):
         set_task(400, 400, test_image)
+
 
 # class TestPostCase():
 #
