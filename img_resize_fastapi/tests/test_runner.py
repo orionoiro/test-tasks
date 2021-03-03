@@ -25,9 +25,9 @@ def gen_image(x, y, extension):
     return upload_file
 
 
-@pytest.fixture  # (scope="module", params=[(300, 300, 'jpg'), (500,500, 'bmp')])
-def test_image():
-    return gen_image(300, 300, 'png')
+@pytest.fixture(params=[(300, 300, 'jpeg'), (500, 500, 'bmp'), (700, 700, 'png')])
+def test_image(request):
+    return gen_image(request.param[0], request.param[1], request.param[2])
 
 
 def test_img_type(test_image):
