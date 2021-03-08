@@ -84,9 +84,3 @@ def test_img_width():
 #
 #     def test_to_retrieve(self):
 #         ...
-
-
-if __name__ == '__main__':
-    print('...starting tests...')
-    im = gen_image(300, 300, 'png')
-    response = test_correct_img_type(im)
