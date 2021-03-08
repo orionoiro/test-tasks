@@ -27,10 +27,10 @@ def gen_image(x, y, extension):
     return upload_file
 
 
+
 @pytest.fixture(params=[(300, 300, 'webp'), (500, 500, 'bmp'), (700, 700, 'gif')])
 def arrange_wrong_image(request):
     return gen_image(request.param[0], request.param[1], request.param[2])
-
 
 @pytest.fixture(params=[(300, 300, 'png'), (500, 500, 'jpeg')])
 def arrange_correct_image(request):
