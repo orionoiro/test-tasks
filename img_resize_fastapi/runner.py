@@ -1,8 +1,8 @@
 from base64 import b64encode
 from os import getcwd
+
 from fastapi import FastAPI, File, UploadFile, HTTPException, status
 from fastapi.responses import FileResponse, JSONResponse
-
 import uvicorn
 from uvicorn.config import LOGGING_CONFIG
 
