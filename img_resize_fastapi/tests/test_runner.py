@@ -1,4 +1,5 @@
 from io import BytesIO
+from os import getcwd
 
 import pytest
 from PIL import Image, ImageDraw
@@ -49,7 +50,7 @@ def test_correct_img_type(arrange_correct_image):
     while True:
         if task.ready():
             break
-    image = Image.open(f'/home/koshi/Desktop/img_resize/{id}', 'r')
+    image = Image.open(f'{getcwd()}/{id}', 'r')
     assert image.size == (height, width)
     assert image.format.lower() == arrange_correct_image.content_type.split('/')[1]
 
