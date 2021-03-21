@@ -21,7 +21,9 @@ def set_task(width: int, height: int, file: UploadFile = File(...)) -> bool:
     elif not 1 <= width <= 9999:
         raise HTTPException(status_code=400, detail='width value should be between 1 and 9999')
 
-    data_bytes = file.file._file.read()  # bytes data of an image
+    # bytes data of an image
+    data_bytes = file.file.read()
+    # encoding to JSON serializable str object
     b64_string = b64encode(data_bytes).decode('ascii')
     task = resize.delay(width, height, b64_string)
     to_store(task.id, file.content_type)
@@ -31,6 +33,7 @@ def set_task(width: int, height: int, file: UploadFile = File(...)) -> bool:
 
 @app.get('/status/{job_id}')
 def get_status(job_id: str):
+    # validating task id
     if to_retrieve(job_id):
         task = celery_app.AsyncResult(id=job_id)
         if task.ready():
@@ -45,7 +48,7 @@ def get_status(job_id: str):
     else:
         raise HTTPException(status_code=404, detail='Incorrect task id')
 
-
+# adds some information in unicorn's output for logging purposes
 def run():
     LOGGING_CONFIG["formatters"]["default"]["fmt"] = "%(asctime)s %(levelprefix)s %(message)s"
     LOGGING_CONFIG["formatters"]["access"]["fmt"]\

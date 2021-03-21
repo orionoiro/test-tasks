@@ -11,6 +11,7 @@ celery_app = Celery('tasks', backend='redis://localhost', broker='redis://localh
 def resize(width: int, height: int, b64_string: str):
     uid = resize.request.id
     data = b64decode(b64_string.encode('ascii'))
+    # creating a buffer for an image
     bytes_io = BytesIO(data)
     im = Image.open(bytes_io)
     img_type = im.format

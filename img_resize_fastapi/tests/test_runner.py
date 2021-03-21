@@ -16,9 +16,12 @@ def gen_image(x, y, extension):
     draw = ImageDraw.Draw(im)
     draw.line((x / 3, y - y / 5) + (x / 3, y / 8), width=1, fill='grey')
     draw.line((x / 3, y - y / 5) + (x - x / 3, y - y / 5), width=1, fill='grey')
+    # creating a buffer object for an image to save
     b = BytesIO()
     im.save(b, format=extension)
+    # moving a cursor to the beginning
     b.seek(0)
+    # creating UploadFile object from buffer
     upload_file = UploadFile(b)
     upload_file.content_type = from_buffer(b.getvalue(), mime=True)
     upload_file.file._file = b
@@ -33,20 +36,12 @@ def arrange_image(request):
 
 @pytest.mark.parametrize('arrange_image', [(300, 300, 'webp'), (500, 500, 'bmp'), (700, 700, 'gif')], indirect=True)
 def test_wrong_img_type(arrange_image):
-<<<<<<< HEAD
     with pytest.raises(HTTPException):
         set_task(400, 400, arrange_image)
 
 
 @pytest.mark.parametrize('arrange_image', [(300, 300, 'png'), (500, 500, 'jpeg')], indirect=True)
-def test_correct_img_type(arrange_image):
-=======
-    with pytest.raises(HTTPException):
-        set_task(400, 400, arrange_image)
-
-
-@pytest.mark.parametrize('arrange_image', [(300, 300, 'png'), (500, 500, 'jpeg')], indirect=True)
-def test_img_height(arrange_image):
+def test_wrong_img_height(arrange_image):
     with pytest.raises(HTTPException):
         set_task(400, 0, arrange_image)
     with pytest.raises(HTTPException):
@@ -54,7 +49,7 @@ def test_img_height(arrange_image):
 
 
 @pytest.mark.parametrize('arrange_image', [(300, 300, 'png'), (500, 500, 'jpeg')], indirect=True)
-def test_img_width(arrange_image):
+def test_wrong_img_width(arrange_image):
     with pytest.raises(HTTPException):
         set_task(10000, 400, arrange_image)
     with pytest.raises(HTTPException):
@@ -63,7 +58,6 @@ def test_img_width(arrange_image):
 
 @pytest.mark.parametrize('arrange_image', [(300, 300, 'png'), (500, 500, 'jpeg')], indirect=True)
 def test_correct_flow(arrange_image):
->>>>>>> dev
     height, width = 400, 400
     id = set_task(height, width, arrange_image)
     task = celery_app.AsyncResult(id=id)
@@ -73,37 +67,3 @@ def test_correct_flow(arrange_image):
     image = Image.open(f'{getcwd()}/{id}', 'r')
     assert image.size == (height, width)
     assert image.format.lower() == arrange_image.content_type.split('/')[1]
-<<<<<<< HEAD
-
-
-def test_img_height():
-    ...
-
-
-def test_img_width():
-    ...
-
-# class TestPostCase():
-#     def test_redis_transaction(self):
-#         ...
-#
-#     def test_celery_job(self):
-#         ...
-#
-#
-# class GetTestCase():
-#     ...
-#
-#
-# class CeleryTaskTest():
-#     ...
-#
-#
-# class RedisTests():
-#     def test_to_store(self):
-#         ...
-#
-#     def test_to_retrieve(self):
-#         ...
-=======
->>>>>>> dev
