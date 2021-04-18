@@ -1,3 +1,4 @@
+from pathlib import Path
 from base64 import b64decode
 from io import BytesIO
 
@@ -16,5 +17,5 @@ def resize(width: int, height: int, b64_string: str):
     im = Image.open(bytes_io)
     img_type = im.format
     im = im.resize((width, height))
-    im.save(uid, format=img_type)
+    im.save(f'{Path(".").cwd()}/{uid}', format=img_type)
     return uid

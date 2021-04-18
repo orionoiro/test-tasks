@@ -1,5 +1,5 @@
+from pathlib import Path
 from io import BytesIO
-from os import getcwd
 
 import pytest
 from PIL import Image, ImageDraw
@@ -7,8 +7,8 @@ from fastapi import HTTPException
 from fastapi.datastructures import UploadFile
 from magic import from_buffer
 
-from runner import set_task
-from tasks import celery_app
+from img_resize.runner import set_task
+from img_resize.tasks import celery_app
 
 
 def gen_image(x, y, extension):
@@ -64,6 +64,6 @@ def test_correct_flow(arrange_image):
     while True:
         if task.ready():
             break
-    image = Image.open(f'{getcwd()}/{id}', 'r')
+    image = Image.open(f'{Path("..").cwd()}/{id}', 'r')
     assert image.size == (height, width)
     assert image.format.lower() == arrange_image.content_type.split('/')[1]

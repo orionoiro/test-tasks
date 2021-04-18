@@ -1,13 +1,13 @@
 from base64 import b64encode
-from os import getcwd
+from pathlib import Path
 
 from fastapi import FastAPI, File, UploadFile, HTTPException, status
 from fastapi.responses import FileResponse, JSONResponse
 import uvicorn
 from uvicorn.config import LOGGING_CONFIG
 
-from tasks import celery_app, resize
-from transactions import to_store, to_retrieve
+from img_resize.tasks import celery_app, resize
+from img_resize.transactions import to_store, to_retrieve
 
 app = FastAPI()
 
@@ -37,7 +37,7 @@ def get_status(job_id: str):
     if to_retrieve(job_id):
         task = celery_app.AsyncResult(id=job_id)
         if task.ready():
-            img_path = f'{getcwd()}/{job_id}'
+            img_path = f'{Path(".").cwd()}/{job_id}'
             response = FileResponse(img_path)
             response.headers['Content-Disposition'] = "attachment; filename=result"
             response.headers['Content-Type'] = to_retrieve(job_id).decode()
@@ -48,11 +48,12 @@ def get_status(job_id: str):
     else:
         raise HTTPException(status_code=404, detail='Incorrect task id')
 
+
 # adds some information in unicorn's output for logging purposes
 def run():
     LOGGING_CONFIG["formatters"]["default"]["fmt"] = "%(asctime)s %(levelprefix)s %(message)s"
-    LOGGING_CONFIG["formatters"]["access"]["fmt"]\
-    = '%(asctime)s %(levelprefix)s %(client_addr)s - "%(request_line)s" %(status_code)s'
+    LOGGING_CONFIG["formatters"]["access"]["fmt"] \
+        = '%(asctime)s %(levelprefix)s %(client_addr)s - "%(request_line)s" %(status_code)s'
     uvicorn.run(app)
 
 
